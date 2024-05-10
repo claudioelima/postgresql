@@ -2,7 +2,7 @@ const express = require('express');
 const { Client } = require('pg');
 
 const app = express();
-const port = 10000;
+const port = 5000;
 
 // Configuração da conexão com o banco de dados PostgreSQL
 const connectionString = 'postgres://postgres.ybwwyderfuvtgpyiymmr:[OIOXjmxOA0nZF6lx]@aws-0-sa-east-1.pooler.supabase.com:5432/postgres';
