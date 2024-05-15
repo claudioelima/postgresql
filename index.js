@@ -1,25 +1,25 @@
 const express = require('express');
-const { Client } = require('pg');
+const { Pool } = require('pg');
+require('dotenv').config();
 
 const app = express();
-const port = 5000;
+const port = 3000;
 
 // Configuração da conexão com o banco de dados PostgreSQL
-const connectionString = 'postgres://postgres.ybwwyderfuvtgpyiymmr:[OIOXjmxOA0nZF6lx]@aws-0-sa-east-1.pooler.supabase.com:5432/postgres';
-const client = new Client({
-    connectionString: connectionString,
-    ssl: {
-        rejectUnauthorized: false // Ajuste necessário para conexão com o Supabase
-    }
+const pool = new Pool({
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASS,
+    port: 5432,
 });
-client.connect();
 
-// Rota para obter dados do banco de dados
+// Rota para acessar os dados do banco de dados
 app.get('/usuarios', async (req, res) => {
     try {
-        // Executa uma consulta SQL para obter todos os usuários
-        const result = await client.query('SELECT * FROM clientes');
-        res.json(result.rows); // Retorna os resultados como JSON
+        // Consulta SQL para selecionar todos os usuários da tabela 'clientes'
+        const { rows } = await pool.query('SELECT * FROM clientes');
+        res.json(rows); // Retorna os dados como JSON
     } catch (err) {
         console.error('Erro ao consultar dados do banco de dados:', err);
         res.status(500).json({ error: 'Erro ao consultar dados do banco de dados' });
