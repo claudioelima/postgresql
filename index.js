@@ -1,3 +1,18 @@
+const express = require('express');
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
+const app = express();
+const port = process.env.PORT || 3000;
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+
+if (!supabaseUrl || !supabaseKey) {
+  console.error('Supabase URL e KEY são necessários.');
+  process.exit(1);
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 app.get('/', async (req, res) => {
   try {
     console.log('Iniciando consulta ao banco de dados...');
@@ -32,4 +47,7 @@ app.get('/', async (req, res) => {
     console.error('Erro ao consultar dados do banco de dados:', err);
     res.status(500).json({ error: 'Erro ao consultar dados do banco de dados', detalhes: err.message });
   }
+});
+app.listen(port, () => {
+  console.log(`Servidor rodando em http://localhost:${port}`);
 });
