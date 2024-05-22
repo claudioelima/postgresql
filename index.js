@@ -1,38 +1,20 @@
-// Importando os módulos necessários
-const express = require('express');
-const { createClient } = require('@supabase/supabase-js');
-require('dotenv').config();
-
-// Inicializando o aplicativo Express
-const app = express();
-const port = process.env.PORT || 3000;
-
-// Configurações do Supabase
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_KEY;
-
-if (!supabaseUrl || !supabaseKey) {
-  console.error('Supabase URL e KEY são necessários.');
-  process.exit(1);
-}
-
-const supabase = createClient(supabaseUrl, supabaseKey);
-
 app.get('/', async (req, res) => {
   try {
     console.log('Iniciando consulta ao banco de dados...');
+    
     // Verifica se a tabela 'clientes' existe
-    const { data: tableData, error: tableError } = await supabase
-      .from('information_schema.tables')
-      .select('table_name')
-      .eq('table_name', 'clientes');
+    const { data: tables, error: tablesError } = await supabase
+      .from('pg_tables')
+      .select('tablename')
+      .eq('schemaname', 'public')
+      .eq('tablename', 'clientes');
 
-    if (tableError) {
-      console.error('Erro ao verificar a tabela:', tableError);
-      throw tableError;
+    if (tablesError) {
+      console.error('Erro ao verificar a tabela:', tablesError);
+      throw tablesError;
     }
 
-    if (tableData.length === 0) {
+    if (tables.length === 0) {
       console.error('Tabela "clientes" não encontrada.');
       res.status(500).json({ error: 'Tabela "clientes" não encontrada no banco de dados.' });
       return;
@@ -50,9 +32,4 @@ app.get('/', async (req, res) => {
     console.error('Erro ao consultar dados do banco de dados:', err);
     res.status(500).json({ error: 'Erro ao consultar dados do banco de dados', detalhes: err.message });
   }
-});
-
-// Inicia o servidor
-app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
 });
