@@ -21,6 +21,23 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 app.get('/', async (req, res) => {
   try {
     console.log('Iniciando consulta ao banco de dados...');
+    // Verifica se a tabela 'clientes' existe
+    const { data: tableData, error: tableError } = await supabase
+      .from('information_schema.tables')
+      .select('table_name')
+      .eq('table_name', 'clientes');
+
+    if (tableError) {
+      console.error('Erro ao verificar a tabela:', tableError);
+      throw tableError;
+    }
+
+    if (tableData.length === 0) {
+      console.error('Tabela "clientes" não encontrada.');
+      res.status(500).json({ error: 'Tabela "clientes" não encontrada no banco de dados.' });
+      return;
+    }
+
     // Consulta SQL para selecionar todos os usuários da tabela 'clientes' usando Supabase
     const { data, error } = await supabase.from('clientes').select('*');
     if (error) {
