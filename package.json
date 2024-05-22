@@ -1,5 +1,5 @@
 {
-  "name": "nova-pasta-(2)",
+  "name": "postgresql",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,6 +12,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.43.2",
     "express": "^4.19.2",
+    "pg": "^8.11.5",
     "supabase": "^1.167.4"
   }
 }
