@@ -7,7 +7,7 @@ const app = express();
 const port = 3000;
 
 // Configurações do Supabase
-const supabaseUrl = 'https://tjdzeynrqtjoikrmbtqa.supabase.co';
+const supabaseUrl = 'https://ybwwyderfuvtgpyiymmr.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqZHpleW5ycXRqb2lrcm1idHFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIyNjA3ODYsImV4cCI6MjAyNzgzNjc4Nn0.F61eIfrB3hiGVa6iZ0qs4guzXBJvesineM5cCVAkcuo';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
