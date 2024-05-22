@@ -1,14 +1,16 @@
 // Importando os módulos necessários
 const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config();
+
 
 // Inicializando o aplicativo Express
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Configurações do Supabase
-const supabaseUrl = 'https://ybwwyderfuvtgpyiymmr.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlid3d5ZGVyZnV2dGdweWl5bW1yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTUzMzcxMzUsImV4cCI6MjAzMDkxMzEzNX0.4onQPDF-kGwvuUE1WvFiD41Dv7hgvLob0V6b3fh88iw';
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -30,4 +32,3 @@ app.get('/', async (req, res) => {
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
-
