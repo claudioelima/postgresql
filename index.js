@@ -12,14 +12,16 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Rota para acessar os dados do banco de dados
 app.get('/', async (req, res) => {
   try {
-      // Consulta SQL para selecionar todos os usuários da tabela 'clientes'
-      const { rows } = await pool.query('SELECT * FROM clientes');
-      res.json(rows); // Retorna os dados como JSON
+      // Consulta SQL para selecionar todos os usuários da tabela 'clientes' usando Supabase
+      const { data, error } = await supabase.from('clientes').select('*');
+      if (error) {
+          throw error;
+      }
+      res.json(data); // Retorna os dados como JSON
   } catch (err) {
-      console.error('Erro ao consultar dados do banco de dados:', err);
+      console.error('Erro ao consultar dados do banco de dados:', err.message);
       res.status(500).json({ error: 'Erro ao consultar dados do banco de dados' });
   }
 });
