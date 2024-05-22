@@ -12,7 +12,7 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Rota para acessar os dados do banco de dados
-app.get('/dados', async (req, res) => {
+app.get('/', async (req, res) => {
   try {
       // Consulta SQL para selecionar todos os usuários da tabela 'clientes'
       const { rows } = await pool.query('SELECT * FROM clientes');
